@@ -34,7 +34,7 @@ exports.createProject = (req, res, pool) => {
   pool.query(sql, values, async (err, result) => {
     if (err) {
       console.error("Error:", err);
-      res.status(500).send(err);
+      res.status(500).send("An error occured");
     } else {
       console.log("Project data saved!");
       // Get the updated list of items from the database
@@ -45,13 +45,12 @@ exports.createProject = (req, res, pool) => {
         if (err) {
           console.error("Error:", err);
         } else {
-          // Update the cache with the updated list of items
-          await client.set(
-            "projectData",
-            JSON.stringify(result.rows),
-            "EX",
-            60 * 60
-          );
+          // Update Cache and log errors
+          await client
+            .set("projectData", JSON.stringify(result.rows), "EX", 60 * 60)
+            .catch(function (error) {
+              console.error("Redis client set error:", error);
+            });
           res.render("index", { message: "Project Data Saved!" });
         }
       });
@@ -65,7 +64,9 @@ exports.createProject = (req, res, pool) => {
 
 exports.getItems = async (req, res, pool) => {
   try {
-    const cachedData = await client.get("projectData");
+    const cachedData = await client.get("projectData").catch(function (error) {
+      console.error("Redis client get error:", error);
+    });
     if (cachedData) {
       res.render("portfolio_list", { projectData: JSON.parse(cachedData) });
     } else {
@@ -76,12 +77,11 @@ exports.getItems = async (req, res, pool) => {
         if (err) {
           console.error("Error:", err);
         } else {
-          await client.set(
-            "projectData",
-            JSON.stringify(result.rows),
-            "EX",
-            60 * 60
-          );
+          await client
+            .set("projectData", JSON.stringify(result.rows), "EX", 60 * 60)
+            .catch(function (error) {
+              console.error("Redis client set error:", error);
+            });
           res.render("portfolio_list", { projectData: result.rows });
         }
       });
@@ -99,9 +99,10 @@ exports.getUpdateForm = (req, res) => {
 };
 
 exports.updateItem = (req, res, pool) => {
+  const sanitize = "Title";
   let sql = `UPDATE projectData
   SET Description = \$1
-  WHERE Title = \$2`;
+  WHERE ${sanitize} = \$2`;
   let values = [req.body.description, req.body.title];
 
   pool.query(sql, values, async (err) => {
@@ -117,13 +118,11 @@ exports.updateItem = (req, res, pool) => {
         if (err) {
           console.error("Error:", err);
         } else {
-          // Update the cache with the updated list of items
-          await client.set(
-            "projectData",
-            JSON.stringify(result.rows),
-            "EX",
-            60 * 60
-          );
+          await client
+            .set("projectData", JSON.stringify(result.rows), "EX", 60 * 60)
+            .catch(function (error) {
+              console.error("Redis client set error:", error);
+            });
           res.render("index", { message: `Row(s) updated: ${req.body.title}` });
         }
       });
@@ -140,15 +139,19 @@ exports.getDeleteForm = (req, res) => {
 };
 
 exports.deleteItem = (req, res, pool) => {
+  const sanitize = "Title";
   let sql = `DELETE FROM projectData
-    WHERE Title = \$1`;
+    WHERE ${sanitize} = \$1`;
   let values = [req.body.title];
 
   pool.query(sql, values, async (err) => {
     if (err) {
       console.error("Error:", err);
     } else {
-      await client.del("projectData");
+      // Clear the cache
+      await client.del("projectData").catch(function (error) {
+        console.error("Redis client del error:", error);
+      });
       console.log(`Item deleted: ${req.body.title}`);
       res.render("index", { message: `Item deleted: ${req.body.title}` });
     }
@@ -164,7 +167,9 @@ exports.deleteAllItems = (req, res, pool) => {
     } else {
       console.log("Table Cleared");
       // Clear the cache
-      await client.del("projectData");
+      await client.del("projectData").catch(function (error) {
+        console.error("Redis client del error:", error);
+      });
       res.render("index", { message: "Table cleared" });
     }
   });
