@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Project</title>
+    <link rel="stylesheet" type="text/css" href="/css/form.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Update Project</h1>
+      <form action="/update" method="post">
+        <label for="name">Project Title:</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value="Insert project title"
+        />
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea>
+        <input class="submit-btn" type="submit" value="Update" />
+      </form>
+      <a href="/">Home</a>
+    </div>
+  </body>
+</html>

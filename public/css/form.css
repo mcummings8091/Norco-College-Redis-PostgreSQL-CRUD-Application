@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond&family=Montserrat:wght@500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: whitesmoke;
+}
+
+.main::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  background-color: #999966;
+  font-family: "Montserrat", sans-serif;
+}
+
+.container {
+  width: 70%;
+  margin: 0 auto;
+  max-height: 100vh;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  border: solid #808080 3px;
+  padding: 20px;
+  margin-top: 1rem;
+}
+
+label {
+  margin-top: 1rem;
+}
+
+input {
+  color: black;
+}
+
+textarea {
+  color: black;
+}
+
+.submit-btn {
+  width: 100px;
+  margin-top: 1rem;
+}
+
+/* list css */
+
+.project-list {
+  list-style-type: none;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  border: solid #808080 3px;
+  padding: 20px;
+  margin-top: 1rem;
+}
+
+.skills-list {
+  padding: 20px;
+  padding-bottom: 0;
+}

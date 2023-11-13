@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond&family=Montserrat:wght@500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: whitesmoke;
+}
+
+.main::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  background-color: #999966;
+  font-family: "Montserrat", sans-serif;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.links {
+  width: 70%;
+  border: 3px solid #808080;
+  margin-top: 1rem;
+  padding: 15px;
+  list-style-type: none;
+}
+
+.link {
+  margin-top: 1rem;
+}
+
+.link:first-of-type {
+  margin-top: 0;
+}
+
+.links a {
+  text-decoration: none;
+}
+
+.links a:visited {
+  text-decoration-color: none;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Project list</title>
+    <link rel="stylesheet" type="text/css" href="/css/form.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Project List</h1>
+      <ul class="project-list">
+        <% projectData.forEach(function(project) { %>
+        <li>
+          <div class="project-card">
+            <h2><%= project.title %></h2>
+            <p><%= project.description %></p>
+            <% if (project.skills) { %>
+            <ul class="skills-list">
+              <% project.skills.forEach(function(skill) { %>
+              <li><%= skill %></li>
+              <% }); %>
+            </ul>
+            <% } %>
+          </div>
+        </li>
+        <% }); %>
+      </ul>
+      <a href="/">Home</a>
+    </div>
+  </body>
+</html>

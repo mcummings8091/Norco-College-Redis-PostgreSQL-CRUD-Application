@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/css/form.css" />
+    <title>Delete Project</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Delete Project</h1>
+      <form action="/delete" method="post">
+        <label for="title">Project Title:</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value="Insert project title"
+        />
+        <input class="submit-btn" type="submit" value="Delete" />
+      </form>
+      <form action="/drop" method="post">
+        <h2>Warning! Deletes all rows in the table!</h2>
+        <input class="submit-btn" type="submit" value="Delete Rows" />
+      </form>
+      <a href="/">Home</a>
+    </div>
+  </body>
+</html>
